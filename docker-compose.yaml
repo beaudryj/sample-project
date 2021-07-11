@@ -1,0 +1,10 @@
+version: '3.5'
+services:
+  litecoind:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      args:
+          LITECOIN_VERSION: "${LITECOIN_VERSION}"
+          DEBIAN_VERSION: "${DEBIAN_VERSION}"
+    image: sample:latest-v2
