@@ -13,4 +13,5 @@ before_install:
   - sudo mv docker-compose /usr/local/bin
 
 install:
-  - docker-compose --env-file ./environments/.env.dev -e COMMIT_HASH=${TRAVIS_COMMIT} build
+  - docker-compose --env-file ./environments/.env.dev build
+  - docker tag jbeaudry-litecoin:${TRAVIS_COMMIT}

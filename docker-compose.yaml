@@ -7,4 +7,4 @@ services:
       args:
           LITECOIN_VERSION: "${LITECOIN_VERSION}"
           DEBIAN_VERSION: "${DEBIAN_VERSION}"
-    image: jbeaudry-litecoin:latest-${COMMIT_HASH}
+    image: jbeaudry-litecoin:latest
