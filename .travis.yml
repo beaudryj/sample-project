@@ -15,4 +15,4 @@ before_install:
 install:
   - docker-compose --env-file ./environments/.env.dev build
   - docker tag jbeaudry-litecoin:latest jbeaudry-litecoin:$TRAVIS_COMMIT
-  - docker image ps
+  - docker image ls
