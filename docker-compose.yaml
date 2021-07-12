@@ -8,3 +8,6 @@ services:
           LITECOIN_VERSION: "${LITECOIN_VERSION}"
           DEBIAN_VERSION: "${DEBIAN_VERSION}"
     image: jbeaudry-litecoin:latest
+    #https://medium.com/@baddour/setting-up-a-litecoin-full-node-a-complete-step-by-step-recipe-that-anyone-can-follow-fb18b82d5cfe
+    # Following some suggested default commands
+    command: ["-printtoconsole", "-disablewallet", "-maxuploadtarget=7500"]

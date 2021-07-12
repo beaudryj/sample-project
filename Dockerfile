@@ -5,7 +5,7 @@ ARG LITECOIN_VERSION
 ENV LITECOIN_DATA=/home/litecoin/.litecoin
 
 RUN apt-get update -y \
-    && apt-get install -y wget \ 
+    && apt-get install -y wget jq\ 
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
@@ -24,6 +24,11 @@ USER worker
 VOLUME ["/home/litecoin/.litecoin"]
 
 EXPOSE 9332 9333 19332 19333 19444
+
+COPY scripts/healthcheck.sh /healthcheck.sh
+
+HEALTHCHECK --interval=5m --timeout=30s \
+    CMD ./healthcheck.sh
 
 ENTRYPOINT ["litecoind"]
 
