@@ -14,5 +14,8 @@ before_install:
 
 install:
   - docker-compose --env-file ./environments/.env.dev build
+
+script: 
+  - curl -s https://ci-tools.anchore.io/inline_scan-latest | bash -s -- "jbeaudry-litecoin:latest"
   - docker tag jbeaudry-litecoin:latest jbeaudry-litecoin:$TRAVIS_COMMIT
   - docker image ls
