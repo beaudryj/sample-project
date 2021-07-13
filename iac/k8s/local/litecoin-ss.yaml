@@ -1,0 +1,28 @@
+apiVersion: "apps/v1"
+kind: StatefulSet
+metadata:
+  name: ltc
+spec:
+  selector:
+    matchLabels:
+      app: ltc 
+  serviceName: ltc
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ltc
+    spec:
+      containers:
+        - name: ltc 
+          image: "jbeaudry-litecoin:latest"
+          imagePullPolicy: "Never"
+          command: ["litecoind"]
+          args: ["-printtoconsole", "-disablewallet", "-maxuploadtarget=7500"]
+          volumeMounts: 
+            - name: localvolume
+              mountPath: "/home/worker/.litecoin"
+      volumes:
+        - name: localvolume
+          persistentVolumeClaim:
+            claimName: ltc-pvc
