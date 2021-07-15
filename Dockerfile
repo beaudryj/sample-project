@@ -25,10 +25,13 @@ RUN checksum=$(sha256sum litecoin-${LITECOIN_VERSION}-x86_64-linux-gnu.tar.gz) \
 # Cleaning up Fetched assets
     && rm *.tar.gz *.asc
 
+# What an annoying bug with non root users... such an old bug too - https://github.com/moby/moby/issues/2259#issuecomment-48286811
+RUN mkdir -p /home/worker/.litecoin; chown -R worker:worker /home/worker/.litecoin
+
+VOLUME ["/home/worker/.litecoin"]
+
 # Setting to Non root user
 USER worker
-
-VOLUME ["/home/litecoin/.litecoin"]
 
 # Exposing out default ports 
 EXPOSE 9332 9333 19332 19333 19444
