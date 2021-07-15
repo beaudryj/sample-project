@@ -45,4 +45,21 @@ variable "role_account_id" {
 variable "role_name" {
   description = "Name of the role to be assumed"
   type        = string
+  default     = ""
+}
+
+variable "suffix" {
+  description = "suffix for account type"
+  type        = string
+  default     = ""
+}
+
+variable "tags" {
+  type = map(any)
+  default = {
+    Environment = "Development"
+    Region      = "us-east-1"
+    Version     = "0.0.1"
+    Terraform   = "True"
+  }
 }
