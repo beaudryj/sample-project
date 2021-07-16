@@ -48,7 +48,10 @@ module "group" {
   "Statement": [
     {
       "Action": [
-        "sts:AssumeRole"
+        "sts:AssumeRole",
+        "eks:*",
+        "ecr:CreateRepository",
+        "ecr:PutImage"
       ],
       "Effect": "Allow",
       "Resource": "${module.assume-role.created-iam-role-arn}"
@@ -75,4 +78,13 @@ resource "aws_iam_user_group_membership" "membership" {
   ]
 
   depends_on = [module.group, module.user]
+}
+
+resource "aws_ecr_repository" "litecoin" {
+  name                 = "litecoin"
+  image_tag_mutability = "MUTABLE"
+
+  image_scanning_configuration {
+    scan_on_push = true
+  }
 }
