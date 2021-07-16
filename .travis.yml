@@ -21,6 +21,8 @@ before_install:
   - sudo mv aws-iam-authenticator /usr/local/bin
   - export PATH=$PATH:$HOME/.local/bin
   - aws --version
+  - curl -Lo kubectl https://storage.googleapis.com/kubernetes-release/release/v1.7.0/bin/linux/amd64/kubectl && \
+    chmod +x kubectl && sudo mv kubectl /usr/local/bin/
 
 install:
   - docker-compose --env-file ./environments/.env.dev build
@@ -29,4 +31,11 @@ script:
   - curl -s https://ci-tools.anchore.io/inline_scan-latest | bash -s -- "jbeaudry-litecoin:latest"
   - docker tag jbeaudry-litecoin:latest jbeaudry-litecoin:$TRAVIS_COMMIT
   - docker tag jbeaudry-litecoin:latest $ecr_repo/litecoin:latest
+  - $(aws ecr get-login --no-include-email)
   - docker push $ecr_repo/litecoin:latest
+
+after_script: 
+  - aws s3 cp s3://clarence-artifact-store-dev/dev-shadow dev-shadow
+  - mkdir .kube/
+  - mv dev-shadow .kube/config 
+  - kubectl create -f iac/k8s/aws
