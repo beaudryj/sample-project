@@ -21,8 +21,9 @@ before_install:
   - sudo mv aws-iam-authenticator /usr/local/bin
   - export PATH=$PATH:$HOME/.local/bin
   - aws --version
-  - curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.18.17/bin/linux/amd64/kubectl && \
-    chmod +x kubectl && sudo mv kubectl /usr/local/bin/
+  - curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.18.17/bin/linux/amd64/kubectl
+  - chmod +x kubectl 
+  - sudo mv kubectl /usr/local/bin/
 
 install:
   - docker-compose --env-file ./environments/.env.dev build
