@@ -5,12 +5,17 @@ services:
 
 env:
   DOCKER_COMPOSE_VERSION: 1.29.2
+  AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+  AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
 
+#https://medium.com/collaborne-engineering/build-docker-images-with-travis-ci-for-aws-40524662f120
 before_install:
   - sudo rm /usr/local/bin/docker-compose
   - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
+  - pip install --user awscli
+  - export PATH=$PATH:$HOME/.local/bin
 
 install:
   - docker-compose --env-file ./environments/.env.dev build
@@ -18,4 +23,5 @@ install:
 script: 
   - curl -s https://ci-tools.anchore.io/inline_scan-latest | bash -s -- "jbeaudry-litecoin:latest"
   - docker tag jbeaudry-litecoin:latest jbeaudry-litecoin:$TRAVIS_COMMIT
-  - docker image ls
+  - docker tag jbeaudry-litecoin:latest $ecr_repo/litecoin:latest
+  - docker push $ecr_repo/litecoin:latest
